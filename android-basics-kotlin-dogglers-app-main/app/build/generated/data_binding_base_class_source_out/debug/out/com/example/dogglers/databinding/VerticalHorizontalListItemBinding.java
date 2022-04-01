@@ -4,6 +4,8 @@ package com.example.dogglers.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
@@ -11,13 +13,32 @@ import com.example.dogglers.R;
 import com.google.android.material.card.MaterialCardView;
 import java.lang.NullPointerException;
 import java.lang.Override;
+import java.lang.String;
 
 public final class VerticalHorizontalListItemBinding implements ViewBinding {
   @NonNull
   private final MaterialCardView rootView;
 
-  private VerticalHorizontalListItemBinding(@NonNull MaterialCardView rootView) {
+  @NonNull
+  public final TextView dogAgeVerhonText;
+
+  @NonNull
+  public final TextView dogHobbiesVerhonText;
+
+  @NonNull
+  public final TextView dogNameVerhonText;
+
+  @NonNull
+  public final ImageView dogVerhonImage;
+
+  private VerticalHorizontalListItemBinding(@NonNull MaterialCardView rootView,
+      @NonNull TextView dogAgeVerhonText, @NonNull TextView dogHobbiesVerhonText,
+      @NonNull TextView dogNameVerhonText, @NonNull ImageView dogVerhonImage) {
     this.rootView = rootView;
+    this.dogAgeVerhonText = dogAgeVerhonText;
+    this.dogHobbiesVerhonText = dogHobbiesVerhonText;
+    this.dogNameVerhonText = dogNameVerhonText;
+    this.dogVerhonImage = dogVerhonImage;
   }
 
   @Override
@@ -43,10 +64,38 @@ public final class VerticalHorizontalListItemBinding implements ViewBinding {
 
   @NonNull
   public static VerticalHorizontalListItemBinding bind(@NonNull View rootView) {
-    if (rootView == null) {
-      throw new NullPointerException("rootView");
-    }
+    // The body of this method is generated in a way you would not otherwise write.
+    // This is done to optimize the compiled bytecode for size and performance.
+    int id;
+    missingId: {
+      id = R.id.dog_age_verhon_text;
+      TextView dogAgeVerhonText = rootView.findViewById(id);
+      if (dogAgeVerhonText == null) {
+        break missingId;
+      }
 
-    return new VerticalHorizontalListItemBinding((MaterialCardView) rootView);
+      id = R.id.dog_hobbies_verhon_text;
+      TextView dogHobbiesVerhonText = rootView.findViewById(id);
+      if (dogHobbiesVerhonText == null) {
+        break missingId;
+      }
+
+      id = R.id.dog_name_verhon_text;
+      TextView dogNameVerhonText = rootView.findViewById(id);
+      if (dogNameVerhonText == null) {
+        break missingId;
+      }
+
+      id = R.id.dog_verhon_image;
+      ImageView dogVerhonImage = rootView.findViewById(id);
+      if (dogVerhonImage == null) {
+        break missingId;
+      }
+
+      return new VerticalHorizontalListItemBinding((MaterialCardView) rootView, dogAgeVerhonText,
+          dogHobbiesVerhonText, dogNameVerhonText, dogVerhonImage);
+    }
+    String missingId = rootView.getResources().getResourceName(id);
+    throw new NullPointerException("Missing required view with ID: ".concat(missingId));
   }
 }

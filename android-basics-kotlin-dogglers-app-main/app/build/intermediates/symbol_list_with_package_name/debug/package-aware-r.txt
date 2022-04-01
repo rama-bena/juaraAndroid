@@ -1844,6 +1844,14 @@ id disableHome
 id disablePostScroll
 id disableScroll
 id disjoint
+id dog_age_grid_text
+id dog_age_verhon_text
+id dog_grid_image
+id dog_hobbies_grid_text
+id dog_hobbies_verhon_text
+id dog_name_grid_text
+id dog_name_verhon_text
+id dog_verhon_image
 id dragDown
 id dragEnd
 id dragLeft
