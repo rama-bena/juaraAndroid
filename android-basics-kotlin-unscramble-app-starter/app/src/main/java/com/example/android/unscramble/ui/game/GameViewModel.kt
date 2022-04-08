@@ -1,40 +1,57 @@
 package com.example.android.unscramble.ui.game
 
-import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+
+/**
+ * ViewModel to store data, and changed the data
+ */
 
 class GameViewModel : ViewModel() {
     private var wordsList: MutableList<String> = mutableListOf()
     private lateinit var currentWord: String
 
-    private var _score = 0
-    val score: Int
+    private val _score = MutableLiveData(0)
+    val score: LiveData<Int>
         get() = _score
 
-    private var _currentWordCount = 1
-    val currentWordCount: Int
+    private val _currentWordCount = MutableLiveData(0)
+    val currentWordCount: LiveData<Int>
         get() = _currentWordCount
 
-    private lateinit var _currentScrambledWord: String
-    val currentScrambledWord: String
+    private val _currentScrambledWord = MutableLiveData<String>()
+    val currentScrambledWord: LiveData<String>
         get() = _currentScrambledWord
 
-/*    private fun oldGetNextWord() {
-        currentWord = allWordsList.random()
-        val tempWord = currentWord.toCharArray()
+    init {
+        getNextWord()
+    }
 
-        while (String(tempWord).equals(currentWord, false)) {
-            tempWord.shuffle()
-        }
-
-        if (wordsList.contains(currentWord)) {
+    fun nextWord(): Boolean {
+        return if (currentWordCount.value!! < MAX_NO_OF_WORDS) {
             getNextWord()
-        } else {
-            _currentScrambledWord = String(tempWord)
-            ++currentWordCount
-            wordsList.add(currentWord)
-        }
-    }*/
+            true
+        } else false
+    }
+
+    fun isUserWordCorrect(playerWord: String): Boolean {
+        return if (playerWord.equals(currentWord, true)) {
+            increaseScore()
+            true
+        } else false
+    }
+
+    fun reinitializeData() {
+        _score.value = 0
+        _currentWordCount.value = 0
+        wordsList.clear()
+        getNextWord()
+    }
+
+    /*
+    * HELPER FUNCTION
+    * */
 
     private fun getNextWord() {
         var tempWord = allWordsList.random()
@@ -50,40 +67,12 @@ class GameViewModel : ViewModel() {
             tempScramble.shuffle()
         }
 
-        _currentScrambledWord = String(tempScramble)
-        _currentWordCount++
+        _currentScrambledWord.value = String(tempScramble)
+        _currentWordCount.value = _currentWordCount.value?.inc()
         wordsList.add(currentWord)
     }
 
-    init {
-        Log.d("GameFragment", "GameViewModel created!")
-        getNextWord()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Log.d("GameFragment", "GameViewModel destroyed!")
-    }
-
-    /*
-    * Returns true if the current word count is less than MAX_NO_OF_WORDS.
-    * Updates the next word.
-    */
-    fun nextWord(): Boolean {
-        return if (currentWordCount < MAX_NO_OF_WORDS) {
-            getNextWord()
-            true
-        } else false
-    }
-
-    fun isUserWordCorrect(playerWord: String): Boolean {
-        return if (playerWord.equals(currentWord, true)) {
-            increaseScore()
-            true
-        } else false
-    }
-
     private fun increaseScore() {
-        _score += SCORE_INCREASE
+        _score.value = _score.value?.plus(SCORE_INCREASE)
     }
 }
