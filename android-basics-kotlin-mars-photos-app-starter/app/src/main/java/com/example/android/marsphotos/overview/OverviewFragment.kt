@@ -36,11 +36,12 @@ class OverviewFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        val binding = FragmentOverviewBinding.inflate(inflater)
+        val binding = FragmentOverviewBinding.inflate(inflater)
 
-        val binding = GridViewItemBinding.inflate(inflater)
+//        val binding = GridViewItemBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.photosGrid.adapter = PhotoGridAdapter()
 
         return binding.root
     }
